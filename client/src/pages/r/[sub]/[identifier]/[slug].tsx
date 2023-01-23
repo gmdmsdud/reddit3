@@ -39,7 +39,6 @@ const PostPage = () => {
     const vote = async (value: number, comment?: Comment) => {
         if (!authenticated) router.push("/login");
 
-        // 이미 클릭 한 vote 버튼을 눌렀을 시에는 reset
         if (
             (!comment && value === post?.userVote) ||
             (comment && comment.userVote === value)

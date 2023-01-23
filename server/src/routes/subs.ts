@@ -16,7 +16,6 @@ const getSub = async (req: Request, res: Response) => {
   try {
     const sub = await Sub.findOneByOrFail({ name });
 
-    // 포스트를 생성한 후에 해당 sub에 속하는 포스트 정보들을 넣어주기
     const posts = await Post.find({
       where: { subName: sub.name },
       order: { createdAt: "DESC" },
@@ -134,13 +133,11 @@ const uploadSubImage = async (req: Request, res: Response) => {
   const sub: Sub = res.locals.sub;
   try {
     const type = req.body.type;
-    // 파일 유형을 지정치 않았을 시에는 업로든 된 파일 삭제
     if (type !== "image" && type !== "banner") {
       if (!req.file?.path) {
         return res.status(400).json({ error: "유효하지 않은 파일" });
       }
 
-      // 파일을 지워주기
       unlinkSync(req.file.path);
       return res.status(400).json({ error: "잘못된 유형" });
     }
@@ -148,9 +145,7 @@ const uploadSubImage = async (req: Request, res: Response) => {
     let oldImageUrn: string = "";
 
     if (type === "image") {
-      // 사용중인 Urn 을 저장합니다. (이전 파일을 아래서 삭제하기 위해서)
       oldImageUrn = sub.imageUrn || "";
-      // 새로운 파일 이름을 Urn 으로 넣어줍니다.
       sub.imageUrn = req.file?.filename || "";
     } else if (type === "banner") {
       oldImageUrn = sub.bannerUrn || "";
@@ -158,7 +153,6 @@ const uploadSubImage = async (req: Request, res: Response) => {
     }
     await sub.save();
 
-    // 사용하지 않는 이미지 파일 삭제
     if (oldImageUrn !== "") {
       const fullFilename = path.resolve(
         process.cwd(),
