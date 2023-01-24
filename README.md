@@ -8,3 +8,5 @@ https://user-images.githubusercontent.com/110389737/214022642-92e9b820-71e5-4848
 무한 스크롤 기능
 커뮤니티만들기 포스트만들기 회원가입 로그인 좋아요기능 
 반응형 페이지 기능
+
+http://ec2-13-125-0-236.ap-northeast-2.compute.amazonaws.com/
